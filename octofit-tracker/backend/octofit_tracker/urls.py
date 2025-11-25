@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from . import views
+import os
 
 router = DefaultRouter()
 router.register(r'users', views.UserViewSet, basename='user')
@@ -29,5 +30,5 @@ router.register(r'leaderboards', views.LeaderboardViewSet, basename='leaderboard
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
-    path('', views.api_root, name='api-root'),
+    path('', lambda request: views.api_root(request, format=None, codespace_name=os.environ.get('CODESPACE_NAME')), name='api-root'),
 ]

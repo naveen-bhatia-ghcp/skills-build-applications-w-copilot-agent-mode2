@@ -26,9 +26,11 @@ class LeaderboardViewSet(viewsets.ModelViewSet):
     serializer_class = LeaderboardSerializer
 
 @api_view(['GET'])
-def api_root(request, format=None):
-    import os
-    codespace_name = os.environ.get('CODESPACE_NAME')
+def api_root(request, format=None, codespace_name=None):
+    # Use the passed codespace_name (from urls.py) or fallback to environment
+    if not codespace_name:
+        import os
+        codespace_name = os.environ.get('CODESPACE_NAME')
     if codespace_name:
         base_url = f"https://{codespace_name}-8000.app.github.dev/api/"
     else:
